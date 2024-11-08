@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: event_information
+    description: "Transformed event information from Ticketmaster data"
+    columns:
+      - name: event_name
+        description: "Name of the event"
+        tests:
+          - not_null
+      - name: event_type
+        description: "Type of event"
+      - name: event_date
+        description: "Date of the event"
+        tests:
+          - not_null
+      - name: event_status
+        description: "Current status of the event"
+      - name: event_genre
+        description: "Primary genre of the event"
+      - name: event_subgenre
+        description: "Sub-genre of the event"
+
+  - name: venue_details
+    description: "Venue information for events"
+    columns:
+      - name: venue_name
+        description: "Name of the venue"
+        tests:
+          - not_null
+      - name: venue_latitude
+        description: "Venue latitude coordinate"
+      - name: venue_longitude
+        description: "Venue longitude coordinate"

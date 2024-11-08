@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+    schema: bronze
+    tables:
+      - name: ticketmaster_raw
+        description: "Raw JSON data from Ticketmaster API"
+        columns:
+          - name: raw_data
+            description: "JSON variant type containing all event data"
+          - name: filename
+            description: "Source filename"
+          - name: loaded_at
+            description: "Timestamp when the record was loaded"
