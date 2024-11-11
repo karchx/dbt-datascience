@@ -1,10 +1,4 @@
-{{
-    config(
-        materialized='table',
-        schema='silver'
-    )
-}}
-
+{{ config(schema='silver') }}
 WITH source_data AS (
     SELECT
         raw_data,

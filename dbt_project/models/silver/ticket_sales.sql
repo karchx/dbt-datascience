@@ -1,16 +1,9 @@
-{{
-    config(
-        materialized='table',
-        schema='silver'
-    )
-}}
-
+{{ config(schema='silver') }}
 WITH source_data AS (
     SELECT
         raw_data,
         loaded_at,
         filename
---        index as array_index
     FROM {{ source('bronze', 'ticketmaster_raw') }}
 )
 
