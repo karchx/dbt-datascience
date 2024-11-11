@@ -6,11 +6,11 @@
 }}
 
 WITH source_data AS (
-    SELECT 
+    SELECT
         raw_data,
         loaded_at,
-        filename,
-        index as array_index
+        filename
+--        index as array_index
     FROM {{ source('bronze', 'ticketmaster_raw') }}
 )
 
@@ -27,7 +27,7 @@ SELECT
     value:artist_performer_details[1]:event_participation_history::INTEGER as team2_participation_history,
     -- Metadata
     loaded_at,
-    filename as source_file,
-    array_index
+    filename as source_file
+--    array_index
 FROM source_data,
 LATERAL FLATTEN(input => raw_data)

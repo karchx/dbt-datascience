@@ -94,9 +94,9 @@ def load_bronze(conn: connect, archivo_json: str, tabla_bronze: str):
 
 def main():
     try:
-        archivo_json = './ticketmaster.json'
+        archivo_json = os.path.abspath('./ticketmaster.json')
         tabla_bronze = 'ticketmaster_raw'
-
+        print(archivo_json)
         if not os.path.exists(archivo_json):
             raise FileNotFoundError(
                 f"No se encontró el archivo {archivo_json}")

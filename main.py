@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 load_dotenv()
 
 URL_API = "https://app.ticketmaster.com/discovery/v2/events.json"
-BATCH_SIZE = 20 
+BATCH_SIZE = 20
 MAX_RECORDS = 10e3
 PER_DATE_LIMIT = 1000
 
