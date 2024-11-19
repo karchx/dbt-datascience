@@ -9,6 +9,8 @@ WITH source_data AS (
 )
 
 SELECT
+    value:artist_performer_details[0]:id_event::STRING as id_event,
+    value:artist_performer_details[0]:date_event_pull::DATETIME as date_event_pull,
     -- Team/Performer 1
     value:artist_performer_details[0]:name::STRING as team1_name,
     value:artist_performer_details[0]:genre::STRING as team1_genre,

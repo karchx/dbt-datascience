@@ -9,6 +9,8 @@ WITH source_data AS (
 )
 
 SELECT
+    value:event_information:id_event::STRING as id_event,
+    value:event_information:date_event_pull::DATETIME as date_event_pull,
     -- Event Information
     value:event_information:name::STRING as event_name,
     value:event_information:type::STRING as event_type,

@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: silver
+    database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+    schema: silver
+    tables:
+      - name: artist_performer_details
+        description: "Details artist event"
+      - name: event_information
+        description: "Information to event"
+      - name: ticket_sales
+        description: "About ticket sales"
+      - name: venue_details
+        description: "Details about venue"
+        

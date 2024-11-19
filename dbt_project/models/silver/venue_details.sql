@@ -9,6 +9,8 @@ WITH source_data AS (
 )
 
 SELECT
+    value:venue_details:id_event::STRING as id_event,
+    value:venue_details:date_event_pull::DATETIME as date_event_pull,
     -- Venue Details
     value:venue_details:name::STRING as venue_name,
     value:venue_details:location:latitude::FLOAT as venue_latitude,

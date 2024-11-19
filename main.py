@@ -8,20 +8,26 @@ load_dotenv()
 
 URL_API = "https://app.ticketmaster.com/discovery/v2/events.json"
 BATCH_SIZE = 20
-MAX_RECORDS = 10e3
+MAX_RECORDS = 9e3
 PER_DATE_LIMIT = 1000
 
 def request_api_ticketmaster(params: dict, page=0, results=[]):
     params['page'] = page
     res = requests.get(URL_API, params=params)
+    current_date = params['startDateTime']
     data = res.json()
+    pk = None
 
     if '_embedded' in data and 'events' in data['_embedded']:
         events = data['_embedded']['events']
-
         for event in events:
+            venue = event.get('_embedded', {}).get('venues', [{}])[0]
+            pk = event.get('id')
+
             event_info = {
                 "event_information": {
+                    "id_event": pk,
+                    "date_event_pull": current_date,
                     "name": event.get('name'),
                     "type": event.get('classifications', [{}])[0].get('segment', {}).get('name'),
                     "dates": event.get('dates', {}).get('start', {}).get('localDate'),
@@ -34,9 +40,10 @@ def request_api_ticketmaster(params: dict, page=0, results=[]):
                 "artist_performer_details": []
             }
 
-            venue = event.get('_embedded', {}).get('venues', [{}])[0]
             if venue:
                 event_info["venue_details"] = {
+                    "id_event": pk,
+                    "date_event_pull": current_date,
                     "name": venue.get('name'),
                     "location": {
                         "latitude": venue.get('location', {}).get('latitude'),
@@ -50,6 +57,8 @@ def request_api_ticketmaster(params: dict, page=0, results=[]):
             if 'priceRanges' in event:
                 price_ranges = event.get('priceRanges', [{}])[0]
                 event_info["ticket_sales"] = {
+                    "id_event": pk,
+                    "date_event_pull": current_date,
                     "price_range": {
                         "min": price_ranges.get('min'),
                         "max": price_ranges.get('max'),
@@ -62,6 +71,8 @@ def request_api_ticketmaster(params: dict, page=0, results=[]):
             performers = event.get('_embedded', {}).get('attractions', [])
             for performer in performers:
                 performer_info = {
+                    "id_event": pk,
+                    "date_event_pull": current_date,
                     "name": performer.get('name'),
                     "genre": performer.get('classifications', [{}])[0].get('genre', {}).get('name'),
                     "popularity": performer.get('upcomingEvents', {}).get('ticketmaster'),
@@ -91,7 +102,7 @@ def main():
 
     while len(results) < MAX_RECORDS:
         params['startDateTime'] = current_date.strftime("%Y-%m-%dT00:00:00Z")
-        print(f"Requesting data for date: {params['startDateTime']}")  # Log para seguimiento
+        print(f"Requesting data for date: {params['startDateTime']}")  # Log debug
 
         results = request_api_ticketmaster(params, page=0, results=results)
 

@@ -70,7 +70,7 @@ def load_bronze(conn: connect, archivo_json: str, tabla_bronze: str):
         """)
 
         cur.execute(
-            f"PUT file://{archivo_json} @temp_json_stage AUTO_COMPRESS=TRUE")
+            f"PUT file://{archivo_json} @temp_json_stage AUTO_COMPRESS=TRUE OVERWRITE=TRUE")
 
         cur.execute(f"""
         COPY INTO bronze.{tabla_bronze} (raw_data, filename)
